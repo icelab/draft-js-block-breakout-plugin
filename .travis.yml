@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- 5.8
+- 4.4
+install:
+- npm install
+- npm install react react-dom draft-js
+notifications:
+  email:
+    on_success: change
+    on_failure: always
