@@ -11,15 +11,15 @@ import {List} from 'immutable'
  * @type {Object}
  */
 const defaults = {
-  defaultBlockType: 'unstyled',
-  breakoutBlockTypes: [
+  breakoutBlockType: 'unstyled',
+  breakoutBlocks: [
     'header-one',
     'header-two',
     'header-three',
     'header-four',
     'header-five',
     'header-six',
-  ],
+  ]
 }
 
 /**
@@ -32,14 +32,15 @@ const defaults = {
  * This plugin adds behaviour to the editor to "break out" of certain block
  * types if the user presses `return` at the start or end of the block.
  *
- * @param {Array} options.breakoutBlockTypes An array containing the names of the
+ * @param {Array} options.breakoutBlocks An array containing the names of the
  * various block-types to break out from.
  *
  * @return {Object} Object defining the draft-js API methods
  */
 export default function blockBreakoutPlugin (options = {}) {
-  const defaultBlockType = options.defaultBlockType || defaults.defaultBlockType
-  const breakoutBlockTypes = options.breakoutBlockTypes || defaults.breakoutBlockTypes
+
+  const breakoutBlockType = options.breakoutBlockType || defaults.breakoutBlockType
+  const breakoutBlocks = options.breakoutBlocks || defaults.breakoutBlocks
 
   return {
     handleReturn (e, { getEditorState, setEditorState }) {
@@ -47,7 +48,7 @@ export default function blockBreakoutPlugin (options = {}) {
       const currentBlockType = RichUtils.getCurrentBlockType(editorState)
 
       // Does the current block type match a type we care about?
-      if (breakoutBlockTypes.indexOf(currentBlockType) > -1) {
+      if (breakoutBlocks.indexOf(currentBlockType) > -1) {
         const selection = editorState.getSelection()
 
         // Check if the selection is collapsed
@@ -64,7 +65,7 @@ export default function blockBreakoutPlugin (options = {}) {
             const emptyBlock = new ContentBlock({
               key: emptyBlockKey,
               text: '',
-              type: defaultBlockType,
+              type: breakoutBlockType,
               characterList: List(),
               depth: 0,
             })
@@ -78,6 +79,7 @@ export default function blockBreakoutPlugin (options = {}) {
             }).rest()
 
             let augmentedBlocks
+            let focusKey
             // Choose which order to apply the augmented blocks in depending
             // on whether we’re at the start or the end
             if (atEndOfBlock) {
@@ -86,12 +88,14 @@ export default function blockBreakoutPlugin (options = {}) {
                 [currentBlock.getKey(), currentBlock],
                 [emptyBlockKey, emptyBlock],
               ]
+              focusKey = emptyBlockKey
             } else {
               // Empty first, current block afterwards
               augmentedBlocks = [
                 [emptyBlockKey, emptyBlock],
                 [currentBlock.getKey(), currentBlock],
               ]
+              focusKey = currentBlock.getKey()
             }
             // Join back together with the current + new block
             const newBlocks = blocksBefore.concat(augmentedBlocks, blocksAfter).toOrderedMap()
@@ -99,12 +103,12 @@ export default function blockBreakoutPlugin (options = {}) {
               blockMap: newBlocks,
               selectionBefore: selection,
               selectionAfter: selection.merge({
-                anchorKey: emptyBlockKey,
+                anchorKey: focusKey,
                 anchorOffset: 0,
-                focusKey: emptyBlockKey,
+                focusKey: focusKey,
                 focusOffset: 0,
-                isBackward: false,
-              }),
+                isBackward: false
+              })
             })
             // Set the state
             setEditorState(
