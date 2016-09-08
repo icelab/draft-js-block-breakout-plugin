@@ -31,8 +31,8 @@ You can pass options to the plugin as you call it:
 
 ```js
 const options = {
-  defaultBlockType: 'unordered-list-item',
-  breakoutBlockTypes: ['header-one', 'header-two']
+  breakoutBlockType: 'unordered-list-item',
+  breakoutBlocks: ['header-one', 'header-two']
 }
 const blockBreakoutPlugin = createBlockBreakoutPlugin(options)
 ```
