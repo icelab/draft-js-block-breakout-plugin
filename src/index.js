@@ -114,11 +114,11 @@ export default function blockBreakoutPlugin (options = {}) {
             setEditorState(
               EditorState.push(editorState, newContentState, 'split-block')
             )
-            return true
+            return 'handled'
           }
         }
       }
-      return false
+      return 'not-handled'
     },
   }
 }
