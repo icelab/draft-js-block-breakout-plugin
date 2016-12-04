@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v1.0.0 2016-12-05
+
+### Fixed
+
+* Handle changed return value behaviour for key commands in draft-js — [Thanks to @sugarshin](https://github.com/icelab/draft-js-block-breakout-plugin/pull/4)!
+
 # v0.0.2 2016-06-08
 
 ### Fixed
