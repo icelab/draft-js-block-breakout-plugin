@@ -56,7 +56,7 @@ export default function blockBreakoutPlugin (options = {}) {
           const contentState = editorState.getCurrentContent()
           const currentBlock = contentState.getBlockForKey(selection.getEndKey())
           const endOffset = selection.getEndOffset()
-          const atEndOfBlock = (endOffset === currentBlock.getCharacterList().count())
+          const atEndOfBlock = (endOffset === currentBlock.getLength())
           const atStartOfBlock = (endOffset === 0)
 
           // Check we’re at the start/end of the current block
