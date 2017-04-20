@@ -43,6 +43,7 @@ The options and their defaults are:
 | --- | --- | --- | --- |
 | `breakoutBlockType` | `String` | Block type to insert when breaking out | `'unstyled'`
 | `breakoutBlocks` | `Array` | List of block types to break out from | `['header-one', 'header-two', 'header-three', 'header-four', 'header-five', 'header-six']`
+| `doubleBreakoutBlocks` | `Array` | List of block types to that require return on a blank line in order to break | `['blockquote', 'unordered-list-item', 'ordered-list-item', 'code-block']`
 
 ## Developing
 

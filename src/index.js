@@ -19,7 +19,13 @@ const defaults = {
     'header-four',
     'header-five',
     'header-six',
-  ]
+  ],
+  doubleBreakoutBlocks: [
+    'blockquote',
+    'unordered-list-item',
+    'ordered-list-item',
+    'code-block',
+  ],
 }
 
 /**
@@ -41,14 +47,17 @@ export default function blockBreakoutPlugin (options = {}) {
 
   const breakoutBlockType = options.breakoutBlockType || defaults.breakoutBlockType
   const breakoutBlocks = options.breakoutBlocks || defaults.breakoutBlocks
+  const doubleBreakoutBlocks = options.doubleBreakoutBlocks || defaults.doubleBreakoutBlocks
 
   return {
     handleReturn (e, { getEditorState, setEditorState }) {
       const editorState = getEditorState()
       const currentBlockType = RichUtils.getCurrentBlockType(editorState)
+      const isSingleBreakoutBlock = breakoutBlocks.indexOf(currentBlockType) > -1
+      const isDoubleBreakoutBlock = doubleBreakoutBlocks.indexOf(currentBlockType) > -1
 
       // Does the current block type match a type we care about?
-      if (breakoutBlocks.indexOf(currentBlockType) > -1) {
+      if (isSingleBreakoutBlock || isDoubleBreakoutBlock) {
         const selection = editorState.getSelection()
 
         // Check if the selection is collapsed
@@ -60,7 +69,7 @@ export default function blockBreakoutPlugin (options = {}) {
           const atStartOfBlock = (endOffset === 0)
 
           // Check we’re at the start/end of the current block
-          if (atEndOfBlock || atStartOfBlock) {
+          if ((atEndOfBlock && isSingleBreakoutBlock) || (atStartOfBlock && isSingleBreakoutBlock) || (atStartOfBlock && !currentBlock.getLength())) {
             const emptyBlockKey = genKey()
             const emptyBlock = new ContentBlock({
               key: emptyBlockKey,
@@ -74,6 +83,7 @@ export default function blockBreakoutPlugin (options = {}) {
             const blocksBefore = blockMap.toSeq().takeUntil(function (v) {
               return v === currentBlock
             })
+
             const blocksAfter = blockMap.toSeq().skipUntil(function (v) {
               return v === currentBlock
             }).rest()
@@ -83,11 +93,18 @@ export default function blockBreakoutPlugin (options = {}) {
             // Choose which order to apply the augmented blocks in depending
             // on whether we’re at the start or the end
             if (atEndOfBlock) {
-              // Current first, empty block afterwards
-              augmentedBlocks = [
-                [currentBlock.getKey(), currentBlock],
-                [emptyBlockKey, emptyBlock],
-              ]
+              if (isDoubleBreakoutBlock) {
+                // Discard Current as it was blank
+                augmentedBlocks = [
+                  [emptyBlockKey, emptyBlock],
+                ]
+              } else {
+                // Current first, empty block afterwards
+                augmentedBlocks = [
+                  [currentBlock.getKey(), currentBlock],
+                  [emptyBlockKey, emptyBlock],
+                ]
+              }
               focusKey = emptyBlockKey
             } else {
               // Empty first, current block afterwards
