@@ -1,6 +1,6 @@
 {
   "name": "draft-js-block-breakout-plugin",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Break out of block types as you type.",
   "main": "lib/index.js",
   "scripts": {

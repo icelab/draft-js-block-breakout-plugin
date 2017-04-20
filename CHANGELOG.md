@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v1.0.3 2017-04-20
+
+* Add support for breaking out of multi-line blocks after a double return — [Thanks to @rosey](https://github.com/icelab/draft-js-block-breakout-plugin/pull/9)
+
 # v1.0.2 2017-02-15
 
 * Bring immutable version in line with draft-js — [ta, @sugarshin](https://github.com/icelab/draft-js-block-breakout-plugin/pull/6)
