@@ -44,7 +44,6 @@ const defaults = {
  * @return {Object} Object defining the draft-js API methods
  */
 export default function blockBreakoutPlugin (options = {}) {
-
   const breakoutBlockType = options.breakoutBlockType || defaults.breakoutBlockType
   const breakoutBlocks = options.breakoutBlocks || defaults.breakoutBlocks
   const doubleBreakoutBlocks = options.doubleBreakoutBlocks || defaults.doubleBreakoutBlocks
@@ -124,8 +123,8 @@ export default function blockBreakoutPlugin (options = {}) {
                 anchorOffset: 0,
                 focusKey: focusKey,
                 focusOffset: 0,
-                isBackward: false
-              })
+                isBackward: false,
+              }),
             })
             // Set the state
             setEditorState(
