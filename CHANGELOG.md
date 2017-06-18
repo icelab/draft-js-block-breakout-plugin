@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v2.0.0 2017-06-19
+
+* Update to match [method signature changes in draft-js v0.10.1](https://github.com/draft-js-plugins/draft-js-plugins/issues/736) — [Thanks to @rosey](https://github.com/icelab/draft-js-block-breakout-plugin/pull/13)
+
 # v1.0.3 2017-04-20
 
 * Add support for breaking out of multi-line blocks after a double return — [Thanks to @rosey](https://github.com/icelab/draft-js-block-breakout-plugin/pull/9)
