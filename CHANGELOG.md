@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+# v2.0.1 2017-06-19
+
+* Bump draft-js peer dependency to v0.10.1
+
 # v2.0.0 2017-06-19
 
 * Update to match [method signature changes in draft-js v0.10.1](https://github.com/draft-js-plugins/draft-js-plugins/issues/736) — [Thanks to @rosey](https://github.com/icelab/draft-js-block-breakout-plugin/pull/13)
